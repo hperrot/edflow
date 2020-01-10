@@ -138,11 +138,12 @@ def test(config, root, checkpoint=None, bar_position=0):
     if "test_mode" not in config:
         config["test_mode"] = True
 
+    dataset_key = "validation_dataset" if "validation_dataset" in config else "dataset"
     implementations = get_implementations_from_config(
-        config, ["model", "iterator", "dataset"]
+        config, ["model", "iterator", dataset_key]
     )
 
-    dataset = implementations["dataset"](config=config)
+    dataset = implementations[dataset_key](config=config)
     dataset.expand = True
     logger.info("Number of testing samples: {}".format(len(dataset)))
     n_processes = config.get("n_data_processes", min(16, config["batch_size"]))
