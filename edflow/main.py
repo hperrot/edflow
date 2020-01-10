@@ -125,7 +125,7 @@ def train(config, root, checkpoint=None, retrain=False):
             validation_batches.finalize()
 
 
-def test(config, root, checkpoint=None, nogpu=False, bar_position=0):
+def test(config, root, checkpoint=None, bar_position=0):
     """Run tests. Loads model, iterator and dataset from config."""
     from edflow.iterators.batches import make_batches
 
@@ -162,7 +162,7 @@ def test(config, root, checkpoint=None, nogpu=False, bar_position=0):
 
         config["hook_freq"] = 1
         config["num_epochs"] = 1
-        config["nogpu"] = nogpu
+        config.setdefault("nogpu", False)
         compat_kwargs = dict(
             hook_freq=config["hook_freq"],
             bar_position=bar_position,
